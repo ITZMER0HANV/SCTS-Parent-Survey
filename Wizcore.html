@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Parent Survey</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    button { padding: 10px 20px; margin-top: 15px; }
+  </style>
+</head>
+<body>
+
+<h2>Student Study Survey</h2>
+
+<form id="surveyForm">
+
+  <h3>Student Study Method</h3>
+  <input type="radio" name="study" value="Tuition" required> Tuition<br>
+  <input type="radio" name="study" value="Self-study"> Self-study<br>
+  <input type="radio" name="study" value="Both"> Both<br>
+  <input type="radio" name="study" value="No Tuition"> No Tuition<br>
+
+  <h3>Parents Working Status</h3>
+  <input type="radio" name="parent" value="Both working" required> Both working<br>
+  <input type="radio" name="parent" value="One working"> One working<br>
+  <input type="radio" name="parent" value="None working"> None working<br>
+
+  <br>
+  <button type="submit">Submit</button>
+</form>
+
+<script>
+document.getElementById("surveyForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  let study = document.querySelector('input[name="study"]:checked').value;
+  let parent = document.querySelector('input[name="parent"]:checked').value;
+
+  let data = JSON.parse(localStorage.getItem("surveyData")) || {
+    study: {},
+    parent: {}
+  };
+
+  data.study[study] = (data.study[study] || 0) + 1;
+  data.parent[parent] = (data.parent[parent] || 0) + 1;
+
+  localStorage.setItem("surveyData", JSON.stringify(data));
+
+  alert("Thank you for your response!");
+  document.getElementById("surveyForm").reset();
+});
+</script>
+
+</body>
+</html>
